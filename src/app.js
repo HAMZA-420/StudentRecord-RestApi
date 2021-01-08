@@ -14,9 +14,13 @@ app.get('/',(req,res)=> {
 //create a new students
 app.post('/students', (req,res)=> {
     
-    console.log(req.body);
-    const user = new Student(req.body)
-    res.send('Hello from other side');
+    console.log(req.body);  //getting data from postman
+    const user = new Student(req.body);
+    user.save().then(()=> {   //saving to mongodb
+        res.status(201).send(user);
+    }).catch((e)=> {
+        res.status(400).send(e);
+    }); 
 })
 
 app.listen(port,()=>{
