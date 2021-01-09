@@ -58,10 +58,24 @@ app.get("/students/:id", async(req,res) => {
         }
        
     }catch(e) {
-        console.log(e);
+        res.statusCode(500).send(e);
     }
 })
 
+//delete the students by id
+
+app.delete('/students/:id', async(req,res) =>{
+    try{
+        const id=req.params.id;
+        const deleteStudent= await Student.findByIdAndDelete(id)
+        if(!req.params.id) {
+            return res.statusCode(400).send();
+        }
+        res.send(deleteStudent);
+    }catch(e) {
+        res.statusCode(500).send(e);
+    }
+})
 
 app.listen(port,()=>{
     console.log(`connection is setup at ${port}`);
